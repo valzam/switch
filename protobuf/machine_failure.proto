@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package machine_failure;
+
+message MachineDataPoint {
+    string sender = 1;
+    double timestamp = 2;
+
+    double temperature = 3;
+    double velocity = 4;
+    double pressure = 5;
+}
+
+message MachineFailurePrediction {
+    double timestamp = 1;
+    double failureChance = 2;
+}
