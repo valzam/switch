@@ -20,7 +20,7 @@ class Discovery:
             "outgoing_topic": server.outgoing_topic
         }
 
-    def start(self, context: zmq.Context,):
+    def start(self, context: zmq.Context):
         self.endpoint = self._build_endpoint(context)
         logger.info(f"Starting discovery process on port {self.port}")
         while True:

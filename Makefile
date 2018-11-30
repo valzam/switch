@@ -12,3 +12,6 @@ build-protobuf:
 
 build-docker:
 	docker build -t switch .
+
+test:
+	pytest
