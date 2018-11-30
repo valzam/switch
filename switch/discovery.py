@@ -1,14 +1,20 @@
 from . import Server, logging
 import zmq
 import json
+from multiprocessing import Process
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-class Discovery:
-    def __init__(self, port: int):
+class Discovery(Process):
+    """ Implements a simple HTTP interface with information about the running server
+    """
+    def __init__(self, port: int, context: zmq.Context, daemon=False):
+        super().__init__(daemon=daemon)
+
         self.running_servers = {}
+        self.context = context
         self.port = port
         self.endpoint = None
 
@@ -20,8 +26,8 @@ class Discovery:
             "outgoing_topic": server.outgoing_topic
         }
 
-    def start(self, context: zmq.Context):
-        self.endpoint = self._build_endpoint(context)
+    def run(self, ):
+        self.endpoint = self._build_endpoint(self.context)
         logger.info(f"Starting discovery process on port {self.port}")
         while True:
             identity, request = self.endpoint.recv_multipart()

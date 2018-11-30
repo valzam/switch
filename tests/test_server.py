@@ -57,8 +57,8 @@ def test_end2end():
                                         outgoing_port=os.environ.get("OUTGOING_PORT"),
                                         incoming_topic=os.environ.get("INCOMING_TOPIC"),
                                         outgoing_topic=os.environ.get("OUTGOING_TOPIC"))
-    server = switch.Server(server_config)
-    Process(target=server.start, args=(context, ), daemon=True).start()
+    server = switch.Server(server_config, context=context, daemon=True)  # pylint: disable=E1123
+    server.start()
     Process(target=start_producer, args=(os.environ.get("INCOMING_PORT"),
                                          os.environ.get("INCOMING_TOPIC")), daemon=True).start()
 
